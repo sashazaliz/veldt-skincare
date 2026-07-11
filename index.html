@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veldt — Botanical Skincare · Southern California</title>
+<meta name="description" content="Veldt is a luxury botanical skincare collection formulated on the Southern California coast. Cold-pressed. Small-batch. Slow beauty.">
+
+<!--
+  FONT NOTE (production):
+  Display: Tobias (Klim) or GT Sectra — fashion editorial serifs
+  Body: Tiempos Text (Klim) — designed for reading
+  UI: Untitled Sans (Klim) — restrained luxury grotesque
+  Demo: Playfair Display (variable) + Crimson Pro + Space Grotesk — Google Fonts
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ─────────────────────────────────────────
+   TOKENS — warm cream, dusty rose accent
+───────────────────────────────────────── */
+:root {
+  --cream:     #f5f0e8;   /* warm off-white — the page background */
+  --cream-2:   #e8dfd0;   /* section tint */
+  --cream-3:   #ddd3c0;
+  --ink:       #1a1410;   /* deep warm-black — never pure black */
+  --ink-2:     #2e261e;
+  --ink-3:     #42352a;
+  --rose:      #b5705a;   /* dusty rose — single brand accent */
+  --rose-lt:   #c98a73;
+  --rose-pale: #e8c4b4;
+  --rose-dim:  rgba(181,112,90,0.08);
+  --sage:      #7a8f72;   /* secondary nature accent — used sparingly */
+  --body-text: #5a4a3a;
+  --muted:     #9a8878;
+  --muted-2:   #d0c8bc;
+
+  --display: 'Playfair Display', Georgia, serif;
+  --serif:   'Crimson Pro', Georgia, serif;
+  --sans:    'Space Grotesk', system-ui, sans-serif;
+
+  --ease-ui: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
+html { scroll-behavior: smooth }
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-weight: 400;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none }
+button { cursor: pointer; border: none; background: none; font-family: var(--sans) }
+img { display: block; max-width: 100%; object-fit: cover }
+
+/* Selection */
+::selection { background: rgba(181,112,90,0.18); color: var(--ink) }
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 5px }
+::-webkit-scrollbar-thumb { background: rgba(181,112,90,0.25); border-radius: 3px }
+
+/* ─────────────────────────────────────────
+   KEYFRAMES
+───────────────────────────────────────── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(22px) }
+  to   { opacity: 1; transform: translateY(0) }
+}
+@keyframes fade-in {
+  from { opacity: 0 } to { opacity: 1 }
+}
+@keyframes marquee {
+  from { transform: translateX(0) }
+  to   { transform: translateX(-50%) }
+}
+@keyframes cart-in {
+  from { transform: translateX(100%) }
+  to   { transform: translateX(0) }
+}
+@keyframes cart-out {
+  from { transform: translateX(0) }
+  to   { transform: translateX(100%) }
+}
+@keyframes ken-burns {
+  from { transform: scale(1) }
+  to   { transform: scale(1.05) }
+}
+
+.reveal {
+  opacity: 0; transform: translateY(26px);
+  transition: opacity 1s var(--ease-ui), transform 1s var(--ease-ui);
+}
+.reveal.visible { opacity: 1; transform: none }
+.d1 { transition-delay: 0.1s } .d2 { transition-delay: 0.2s }
+.d3 { transition-delay: 0.3s } .d4 { transition-delay: 0.4s }
+
+/* ─────────────────────────────────────────
+   ANNOUNCEMENT BAR
+───────────────────────────────────────── */
+.announce {
+  background: var(--ink);
+  padding: 0.55rem 1rem;
+  text-align: center;
+  font-family: var(--sans); font-size: 0.6rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--cream-2);
+}
+.announce span { color: var(--rose-pale) }
+
+/* ─────────────────────────────────────────
+   NAV
+───────────────────────────────────────── */
+nav {
+  position: sticky; top: 0; left: 0; right: 0; z-index: 500;
+  background: var(--cream);
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 3rem;
+  border-bottom: 1px solid var(--muted-2);
+  transition: border-color 0.4s;
+}
+.nav-left {
+  display: flex; gap: 2.2rem; list-style: none;
+  font-family: var(--sans); font-size: 0.65rem;
+  font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase;
+}
+.nav-left a { color: var(--body-text); transition: color 0.3s var(--ease-ui); position: relative }
+.nav-left a::after {
+  content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
+  height: 1px; background: var(--rose);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.4s var(--ease-ui);
+}
+.nav-left a:hover { color: var(--ink) }
+.nav-left a:hover::after { transform: scaleX(1) }
+
+/* Centered wordmark */
+.nav-wordmark {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  font-family: var(--display); font-size: 1.35rem;
+  font-weight: 700; letter-spacing: 0.38em;
+  text-transform: uppercase; color: var(--ink);
+  white-space: nowrap;
+}
+
+.nav-right {
+  display: flex; align-items: center; gap: 1.6rem;
+}
+.nav-icon {
+  font-family: var(--sans); font-size: 0.62rem;
+  font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--body-text); transition: color 0.3s; cursor: pointer;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.nav-icon:hover { color: var(--rose) }
+.cart-count {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--rose); color: white;
+  font-size: 0.5rem; font-family: var(--sans); font-weight: 500;
+}
+.nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer }
+.nav-toggle span { display: block; width: 22px; height: 1px; background: var(--ink-2) }
+
+/* ─────────────────────────────────────────
+   CART DRAWER — slides from right
+───────────────────────────────────────── */
+.cart-overlay {
+  position: fixed; inset: 0; z-index: 900;
+  background: rgba(26,20,16,0.4);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.4s var(--ease-ui);
+}
+.cart-overlay.open { opacity: 1; pointer-events: all }
+
+.cart-drawer {
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 901;
+  width: 420px; max-width: 92vw;
+  background: var(--cream);
+  border-left: 1px solid var(--muted-2);
+  display: flex; flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.5s var(--ease-ui);
+}
+.cart-drawer.open { transform: translateX(0) }
+
+.cart-header {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--muted-2);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.cart-title {
+  font-family: var(--sans); font-size: 0.65rem;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink);
+}
+.cart-close {
+  font-size: 1rem; color: var(--muted); cursor: pointer; transition: color 0.3s;
+}
+.cart-close:hover { color: var(--rose) }
+
+.cart-items { flex: 1; overflow-y: auto; padding: 1.5rem 2rem }
+.cart-empty {
+  text-align: center; padding: 4rem 2rem;
+  font-family: var(--serif); font-style: italic;
+  font-size: 1rem; color: var(--muted); line-height: 1.8;
+}
+.cart-item {
+  display: grid; grid-template-columns: 72px 1fr auto;
+  gap: 1rem; align-items: start;
+  padding: 1.2rem 0; border-bottom: 1px solid var(--muted-2);
+}
+.cart-item-img {
+  width: 72px; height: 88px; overflow: hidden; background: var(--cream-2);
+}
+.cart-item-img img { width: 100%; height: 100% }
+.cart-item-name {
+  font-family: var(--display); font-size: 0.95rem;
+  font-weight: 400; color: var(--ink); margin-bottom: 0.25rem;
+}
+.cart-item-size {
+  font-family: var(--sans); font-size: 0.58rem;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+}
+.cart-item-price {
+  font-family: var(--sans); font-size: 0.8rem;
+  font-weight: 400; color: var(--ink);
+}
+.cart-item-remove {
+  font-size: 0.7rem; color: var(--muted); cursor: pointer; transition: color 0.3s;
+}
+.cart-item-remove:hover { color: var(--rose) }
+
+.cart-footer {
+  padding: 1.5rem 2rem;
+  border-top: 1px solid var(--muted-2);
+}
+.cart-subtotal {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 1rem;
+}
+.cart-sub-label {
+  font-family: var(--sans); font-size: 0.62rem;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--body-text);
+}
+.cart-sub-amount {
+  font-family: var(--display); font-size: 1.2rem; font-weight: 400; color: var(--ink);
+}
+.cart-note {
+  font-family: var(--serif); font-style: italic;
+  font-size: 0.78rem; color: var(--muted); margin-bottom: 1.2rem; text-align: center;
+}
+.btn-checkout {
+  width: 100%;
+  font-family: var(--sans); font-size: 0.65rem;
+  font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--cream); background: var(--ink);
+  padding: 1rem 2rem;
+  transition: all 0.4s var(--ease-ui);
+  position: relative; overflow: hidden;
+}
+.btn-checkout::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--rose);
+  transform: translateX(-100%); transition: transform 0.4s var(--ease-ui);
+}
+.btn-checkout:hover::before { transform: translateX(0) }
+.btn-checkout span { position: relative; z-index: 1 }
+
+/* ─────────────────────────────────────────
+   HERO — editorial, full-bleed
+───────────────────────────────────────── */
+#hero {
+  position: relative; overflow: hidden;
+  height: 92vh; min-height: 650px;
+}
+.hero-img {
+  position: absolute; inset: 0; background: var(--cream-2);
+}
+.hero-img img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center 35%;
+  filter: brightness(0.88) saturate(0.82);
+  animation: ken-burns 24s ease-in-out infinite alternate;
+}
+/* Subtle top gradient — nav readability */
+.hero-wash {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(245,240,232,0.3) 0%, transparent 25%),
+    linear-gradient(to top, rgba(245,240,232,0.7) 0%, transparent 45%);
+}
+/* Bottom-left editorial text */
+.hero-content {
+  position: absolute; z-index: 2;
+  bottom: 4.5rem; left: 3rem; max-width: 560px;
+  opacity: 0; animation: fade-up 1s 0.6s var(--ease-ui) forwards;
+}
+.hero-eye {
+  font-family: var(--sans); font-size: 0.58rem;
+  letter-spacing: 0.32em; text-transform: uppercase;
+  color: var(--rose); margin-bottom: 1.2rem;
+  display: flex; align-items: center; gap: 0.7rem;
+}
+.hero-eye::before { content: ''; width: 24px; height: 1px; background: var(--rose) }
+.hero-h1 {
+  font-family: var(--display);
+  font-size: clamp(3rem, 6vw, 7rem);
+  font-weight: 400; font-style: italic;
+  line-height: 0.95; letter-spacing: -0.02em; color: var(--ink);
+}
+.hero-h1 em { font-style: normal; font-weight: 700 }
+.hero-sub {
+  font-family: var(--serif); font-size: 1rem;
+  line-height: 1.8; color: var(--body-text); margin-top: 1.4rem; max-width: 360px;
+}
+.hero-actions {
+  display: flex; align-items: center; gap: 1.5rem; margin-top: 2rem;
+}
+.btn-primary {
+  font-family: var(--sans); font-size: 0.62rem;
+  font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--cream); background: var(--ink);
+  padding: 0.82rem 2rem;
+  transition: all 0.4s var(--ease-ui);
+  position: relative; overflow: hidden;
+}
+.btn-primary::before {
+  content: ''; position: absolute; inset: 0; background: var(--rose);
+  transform: translateX(-100%); transition: transform 0.4s var(--ease-ui);
+}
+.btn-primary:hover::before { transform: translateX(0) }
+.btn-primary span { position: relative; z-index: 1 }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(181,112,90,0.22) }
+.btn-ghost {
+  font-family: var(--sans); font-size: 0.62rem;
+  font-weight: 400; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--body-text); border-bottom: 1px solid var(--muted-2); padding-bottom: 2px;
+  transition: all 0.3s;
+}
+.btn-ghost:hover { color: var(--rose); border-color: var(--rose) }
+
+/* Hero right corner — editorial detail */
+.hero-corner {
+  position: absolute; z-index: 2; top: 5rem; right: 3rem;
+  text-align: right;
+  opacity: 0; animation: fade-in 1s 1.2s var(--ease-ui) forwards;
+}
+.hero-corner-line {
+  font-family: var(--sans); font-size: 0.52rem;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--muted); line-height: 2.2;
+}
+
+/* ─────────────────────────────────────────
+   PRESS STRIP
+───────────────────────────────────────── */
+.press-strip {
+  background: var(--ink);
+  padding: 0.9rem 0; overflow: hidden;
+}
+.press-track {
+  display: flex; white-space: nowrap;
+  animation: marquee 35s linear infinite;
+  font-family: var(--sans); font-size: 0.58rem;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted);
+  align-items: center;
+}
+.press-pub { padding: 0 2.5rem; color: var(--cream-2) }
+.press-quote-item { padding: 0 2.5rem; font-style: italic; font-family: var(--serif); font-size: 0.72rem; letter-spacing: 0.05em; text-transform: none; color: rgba(245,240,232,0.5) }
+.press-sep { color: rgba(181,112,90,0.4); padding: 0 0.5rem }
+
+/* ─────────────────────────────────────────
+   PRODUCT COLLECTION — editorial grid
+───────────────────────────────────────── */
+#collection {
+  padding: 8rem 3rem;
+  background: var(--cream);
+}
+.collection-head {
+  max-width: 1280px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 6rem; align-items: end; margin-bottom: 5rem;
+}
+.s-eye {
+  font-family: var(--sans); font-size: 0.56rem;
+  letter-spacing: 0.3em; text-transform: uppercase; color: var(--rose);
+  margin-bottom: 1.1rem; display: flex; align-items: center; gap: 0.6rem;
+}
+.s-eye::before { content: ''; width: 18px; height: 1px; background: var(--rose) }
+.s-h2 {
+  font-family: var(--display);
+  font-size: clamp(2.2rem, 3.5vw, 4.5rem);
+  font-weight: 400; line-height: 1.0; letter-spacing: -0.02em; color: var(--ink);
+}
+.s-h2 em { font-style: italic; color: var(--rose-lt) }
+.s-body { font-family: var(--serif); font-size: 1rem; line-height: 1.85; color: var(--body-text) }
+
+/* Product grid — bespoke proportions */
+.product-grid {
+  max-width: 1280px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 2.5rem;
+}
+
+.product-card {
+  display: flex; flex-direction: column;
+  position: relative;
+}
+/* Image container — shows secondary on hover */
+.product-card-img {
+  position: relative; overflow: hidden;
+  aspect-ratio: 3/4;
+  background: var(--cream-2);
+  margin-bottom: 1.2rem;
+}
+.product-card-img img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  filter: brightness(0.92) saturate(0.88);
+  transition: opacity 0.6s var(--ease-ui), transform 0.8s var(--ease-ui);
+}
+.product-card-img .img-primary { opacity: 1 }
+.product-card-img .img-secondary { opacity: 0 }
+.product-card:hover .img-primary { opacity: 0 }
+.product-card:hover .img-secondary { opacity: 1 }
+.product-card:hover .img-primary { transform: scale(1.04) }
+
+/* Quick add — appears on hover */
+.product-quick-add {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: rgba(26,20,16,0.85); backdrop-filter: blur(8px);
+  padding: 0.85rem 1rem;
+  transform: translateY(100%);
+  transition: transform 0.4s var(--ease-ui);
+  font-family: var(--sans); font-size: 0.58rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--cream); text-align: center; cursor: pointer;
+}
+.product-quick-add:hover { background: rgba(181,112,90,0.9) }
+.product-card:hover .product-quick-add { transform: translateY(0) }
+
+/* Product info */
+.product-badge {
+  font-family: var(--sans); font-size: 0.5rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--rose); margin-bottom: 0.4rem;
+}
+.product-name {
+  font-family: var(--display); font-size: 1.15rem;
+  font-weight: 400; color: var(--ink);
+  letter-spacing: -0.01em; margin-bottom: 0.3rem;
+  transition: color 0.3s;
+}
+.product-card:hover .product-name { color: var(--rose) }
+.product-tagline {
+  font-family: var(--serif); font-style: italic;
+  font-size: 0.82rem; color: var(--muted); margin-bottom: 0.7rem; line-height: 1.5;
+}
+.product-price {
+  font-family: var(--sans); font-size: 0.78rem;
+  font-weight: 400; color: var(--ink-2);
+}
+.product-size {
+  font-family: var(--sans); font-size: 0.56rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); margin-top: 0.2rem;
+}
+
+/* ─────────────────────────────────────────
+   EDITORIAL FEATURE — hero product
+───────────────────────────────────────── */
+#feature {
+  padding: 0 3rem 8rem;
+  background: var(--cream);
+}
+.feature-inner {
+  max-width: 1280px; margin: 0 auto;
+  display: grid; grid-template-columns: 5fr 7fr;
+  gap: 0;
+  border: 1px solid var(--muted-2);
+}
+.feature-img {
+  overflow: hidden; background: var(--cream-2);
+}
+.feature-img img {
+  width: 100%; height: 100%; min-height: 580px;
+  filter: brightness(0.88) saturate(0.8);
+  transition: transform 0.9s var(--ease-ui);
+}
+.feature-inner:hover .feature-img img { transform: scale(1.03) }
+
+.feature-content {
+  padding: 4.5rem 5rem;
+  display: flex; flex-direction: column; justify-content: center;
+  background: var(--cream-2);
+}
+.feature-content .s-eye { margin-bottom: 1.2rem }
+.feature-h2 {
+  font-family: var(--display);
+  font-size: clamp(2rem, 3.5vw, 4rem);
+  font-weight: 400; font-style: italic;
+  line-height: 1.05; letter-spacing: -0.02em; color: var(--ink);
+  margin-bottom: 1.5rem;
+}
+.feature-body {
+  font-family: var(--serif); font-size: 1rem;
+  line-height: 1.9; color: var(--body-text);
+  max-width: 420px; margin-bottom: 2.5rem;
+}
+.feature-details {
+  display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 2.5rem;
+}
+.feature-detail-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0.6rem 0; border-bottom: 1px solid var(--muted-2);
+  font-family: var(--sans); font-size: 0.62rem;
+}
+.detail-key { letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted) }
+.detail-val { color: var(--ink-2) }
+
+.feature-price {
+  font-family: var(--display); font-size: 1.8rem; font-weight: 400;
+  color: var(--ink); margin-bottom: 1.5rem;
+}
+.feature-price-sub {
+  font-family: var(--sans); font-size: 0.56rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); margin-top: 0.2rem;
+}
+.feature-actions { display: flex; gap: 1rem; align-items: center }
+.btn-add {
+  font-family: var(--sans); font-size: 0.62rem;
+  font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--cream); background: var(--ink);
+  padding: 0.85rem 2.2rem;
+  transition: all 0.4s var(--ease-ui); position: relative; overflow: hidden;
+  flex: 1;
+}
+.btn-add::before {
+  content: ''; position: absolute; inset: 0; background: var(--rose);
+  transform: translateX(-100%); transition: transform 0.4s var(--ease-ui);
+}
+.btn-add:hover::before { transform: translateX(0) }
+.btn-add span { position: relative; z-index: 1 }
+.btn-save {
+  width: 46px; height: 46px; border: 1px solid var(--muted-2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; color: var(--muted);
+  transition: all 0.3s var(--ease-ui);
+}
+.btn-save:hover { border-color: var(--rose); color: var(--rose) }
+
+/* ─────────────────────────────────────────
+   RITUAL SECTION — editorial, not how-to-use
+───────────────────────────────────────── */
+#ritual {
+  padding: 8rem 3rem;
+  background: var(--ink);
+  position: relative; overflow: hidden;
+}
+/* Subtle grid */
+#ritual::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(245,240,232,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,240,232,0.02) 1px, transparent 1px);
+  background-size: 52px 52px; pointer-events: none;
+}
+.ritual-inner {
+  max-width: 1280px; margin: 0 auto;
+  display: grid; grid-template-columns: 5fr 7fr;
+  gap: 8rem; align-items: start;
+}
+.ritual-img {
+  width: 100%; aspect-ratio: 3/4; overflow: hidden; background: var(--ink-2);
+}
+.ritual-img img {
+  width: 100%; height: 100%;
+  filter: brightness(0.65) saturate(0.72);
+  transition: transform 0.9s var(--ease-ui);
+}
+.ritual-inner:hover .ritual-img img { transform: scale(1.04) }
+
+.ritual-content {}
+.ritual-eye {
+  font-family: var(--sans); font-size: 0.56rem;
+  letter-spacing: 0.3em; text-transform: uppercase; color: var(--rose);
+  margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.6rem;
+}
+.ritual-eye::before { content: ''; width: 18px; height: 1px; background: var(--rose) }
+.ritual-h2 {
+  font-family: var(--display);
+  font-size: clamp(2.2rem, 3.5vw, 4.5rem);
+  font-weight: 400; font-style: italic;
+  line-height: 1.0; letter-spacing: -0.02em; color: var(--cream);
+  margin-bottom: 2.5rem;
+}
+.ritual-steps { display: flex; flex-direction: column; gap: 0 }
+.ritual-step {
+  display: grid; grid-template-columns: 50px 1fr;
+  gap: 1.8rem; padding: 2.2rem 0;
+  border-bottom: 1px solid rgba(245,240,232,0.06);
+}
+.ritual-step:last-child { border-bottom: none }
+.ritual-step-num {
+  font-family: var(--display); font-size: 2rem; font-weight: 400;
+  font-style: italic; color: var(--rose); opacity: 0.35; line-height: 1;
+  margin-top: -0.1rem;
+}
+.ritual-step-name {
+  font-family: var(--display); font-size: 1.15rem;
+  font-weight: 400; color: var(--cream); margin-bottom: 0.5rem;
+}
+.ritual-step-body {
+  font-family: var(--serif); font-size: 0.9rem;
+  line-height: 1.85; color: rgba(245,240,232,0.65);
+}
+.ritual-product-tag {
+  display: inline-block; margin-top: 0.7rem;
+  font-family: var(--sans); font-size: 0.54rem;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--rose-pale); border: 1px solid rgba(181,112,90,0.3);
+  padding: 0.2rem 0.7rem;
+}
+
+/* ─────────────────────────────────────────
+   INGREDIENTS — editorial depth
+───────────────────────────────────────── */
+#ingredients {
+  padding: 8rem 3rem;
+  background: var(--cream-2);
+  border-top: 1px solid var(--muted-2);
+}
+.ingredients-inner { max-width: 1280px; margin: 0 auto }
+.ingredients-head {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 6rem; align-items: end; margin-bottom: 5rem;
+}
+.ingredient-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--muted-2);
+}
+.ingredient-card {
+  background: var(--cream-2); padding: 2.5rem 2.2rem;
+  transition: background 0.4s var(--ease-ui);
+}
+.ingredient-card:hover { background: var(--cream) }
+.ingredient-icon {
+  width: 48px; height: 48px; margin-bottom: 1.3rem;
+  border: 1px solid var(--muted-2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; transition: border-color 0.3s;
+}
+.ingredient-card:hover .ingredient-icon { border-color: var(--rose) }
+.ingredient-name {
+  font-family: var(--display); font-size: 1.2rem;
+  font-weight: 400; font-style: italic; color: var(--ink);
+  margin-bottom: 0.3rem;
+}
+.ingredient-origin {
+  font-family: var(--sans); font-size: 0.54rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--rose); margin-bottom: 0.9rem;
+}
+.ingredient-desc {
+  font-family: var(--serif); font-size: 0.85rem;
+  line-height: 1.8; color: var(--body-text);
+}
+
+/* ─────────────────────────────────────────
+   JOURNAL — editorial content hub
+───────────────────────────────────────── */
+#journal {
+  padding: 8rem 3rem;
+  background: var(--cream);
+  border-top: 1px solid var(--muted-2);
+}
+.journal-inner { max-width: 1280px; margin: 0 auto }
+.journal-head { margin-bottom: 4rem }
+.journal-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr;
+  gap: 2.5rem; align-items: start;
+}
+.journal-card {
+  position: relative; overflow: hidden;
+}
+.journal-img {
+  width: 100%; overflow: hidden; background: var(--cream-2);
+  margin-bottom: 1.4rem;
+}
+.journal-img img {
+  width: 100%; aspect-ratio: 4/3;
+  filter: brightness(0.85) saturate(0.8);
+  transition: transform 0.7s var(--ease-ui), filter 0.5s;
+}
+.journal-card:hover .journal-img img { transform: scale(1.04); filter: brightness(0.92) saturate(0.88) }
+.journal-card.featured .journal-img img { aspect-ratio: auto; min-height: 360px }
+.journal-cat {
+  font-family: var(--sans); font-size: 0.54rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--rose); margin-bottom: 0.6rem;
+}
+.journal-title {
+  font-family: var(--display); font-size: 1.25rem;
+  font-weight: 400; font-style: italic; color: var(--ink);
+  line-height: 1.25; margin-bottom: 0.6rem;
+  transition: color 0.3s;
+}
+.journal-card.featured .journal-title {
+  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+}
+.journal-card:hover .journal-title { color: var(--rose) }
+.journal-excerpt {
+  font-family: var(--serif); font-size: 0.88rem;
+  line-height: 1.75; color: var(--body-text);
+  margin-bottom: 0.9rem;
+}
+.journal-meta {
+  font-family: var(--sans); font-size: 0.54rem;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+}
+.journal-read {
+  display: inline-block; margin-top: 0.8rem;
+  font-family: var(--sans); font-size: 0.58rem;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--rose); border-bottom: 1px solid rgba(181,112,90,0.3);
+  padding-bottom: 2px; transition: all 0.3s;
+}
+.journal-read:hover { border-color: var(--rose); color: var(--ink) }
+
+/* ─────────────────────────────────────────
+   SUBSCRIPTION CTA — editorial
+───────────────────────────────────────── */
+#subscribe {
+  padding: 6rem 3rem;
+  background: var(--cream-2);
+  border-top: 1px solid var(--muted-2);
+  border-bottom: 1px solid var(--muted-2);
+}
+.subscribe-inner {
+  max-width: 680px; margin: 0 auto; text-align: center;
+}
+.subscribe-h2 {
+  font-family: var(--display); font-size: clamp(2rem, 3.5vw, 3.5rem);
+  font-weight: 400; font-style: italic; letter-spacing: -0.02em;
+  color: var(--ink); line-height: 1.1; margin-bottom: 1rem;
+}
+.subscribe-body {
+  font-family: var(--serif); font-size: 1rem;
+  line-height: 1.8; color: var(--body-text); margin-bottom: 2rem;
+}
+.subscribe-form {
+  display: flex; gap: 0; max-width: 420px; margin: 0 auto;
+}
+.subscribe-input {
+  flex: 1;
+  font-family: var(--sans); font-size: 0.72rem;
+  padding: 0.82rem 1.2rem;
+  background: var(--cream); color: var(--ink);
+  border: 1px solid var(--muted-2); border-right: none;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.subscribe-input:focus { border-color: var(--rose) }
+.subscribe-input::placeholder { color: var(--muted) }
+.subscribe-btn {
+  font-family: var(--sans); font-size: 0.62rem;
+  font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--cream); background: var(--ink);
+  padding: 0.82rem 1.5rem;
+  transition: background 0.3s;
+  flex-shrink: 0;
+}
+.subscribe-btn:hover { background: var(--rose) }
+.subscribe-note {
+  font-family: var(--serif); font-style: italic;
+  font-size: 0.78rem; color: var(--muted); margin-top: 1rem;
+}
+
+/* ─────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────── */
+footer {
+  background: var(--ink);
+  color: var(--cream-2);
+}
+.footer-top {
+  padding: 5rem 3rem;
+  max-width: 1280px; margin: 0 auto;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 5rem; border-bottom: 1px solid rgba(245,240,232,0.06);
+}
+.footer-brand-name {
+  font-family: var(--display); font-size: 1.4rem;
+  font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--cream); margin-bottom: 0.5rem;
+}
+.footer-brand-sub {
+  font-family: var(--sans); font-size: 0.5rem;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 1.2rem;
+}
+.footer-brand-desc {
+  font-family: var(--serif); font-style: italic;
+  font-size: 0.9rem; line-height: 1.8; color: rgba(245,240,232,0.5);
+  max-width: 260px;
+}
+.footer-col-title {
+  font-family: var(--sans); font-size: 0.52rem;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--rose); margin-bottom: 1.2rem;
+}
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.65rem }
+.footer-links a {
+  font-family: var(--serif); font-size: 0.88rem;
+  color: rgba(245,240,232,0.55); transition: color 0.3s;
+}
+.footer-links a:hover { color: var(--rose-pale) }
+
+/* Oversized wordmark */
+.footer-wordmark {
+  overflow: hidden; padding: 0 3rem;
+  border-top: 1px solid rgba(245,240,232,0.04);
+}
+.footer-wordmark-text {
+  font-family: var(--display);
+  font-size: clamp(5rem, 16vw, 20rem);
+  font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(245,240,232,0.06);
+  line-height: 0.85; user-select: none;
+}
+.footer-bottom {
+  padding: 1.5rem 3rem 2rem;
+  max-width: 1280px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--sans); font-size: 0.52rem;
+  letter-spacing: 0.1em; color: rgba(245,240,232,0.35);
+  flex-wrap: wrap; gap: 1rem;
+}
+
+/* ─────────────────────────────────────────
+   MOBILE MENU
+───────────────────────────────────────── */
+.mob-menu {
+  position: fixed; inset: 0; z-index: 600;
+  background: rgba(245,240,232,0.98); backdrop-filter: blur(20px);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 2.5rem;
+  transform: translateX(100%); transition: transform 0.6s var(--ease-ui);
+}
+.mob-menu.open { transform: translateX(0) }
+.mob-close { position: absolute; top: 2rem; right: 3rem; font-size: 1rem; color: var(--muted); cursor: pointer }
+.mob-menu a {
+  font-family: var(--display); font-size: 2.5rem;
+  font-weight: 400; font-style: italic; color: var(--ink);
+  transition: color 0.3s; letter-spacing: -0.01em;
+}
+.mob-menu a:hover { color: var(--rose) }
+
+/* ─────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────── */
+@media(max-width: 1100px) {
+  nav { padding: 0 1.5rem }
+  .nav-left, .nav-right { display: none }
+  .nav-toggle { display: flex }
+  .nav-wordmark { font-size: 1rem; letter-spacing: 0.25em }
+  #hero .hero-content { left: 1.5rem }
+  #hero .hero-corner { display: none }
+  #collection, #feature, #ritual, #ingredients, #journal, #subscribe, footer { padding-left: 1.5rem; padding-right: 1.5rem }
+  .collection-head, .ingredients-head, .ritual-inner, .feature-inner { grid-template-columns: 1fr }
+  .feature-inner { border: none }
+  .feature-content { padding: 3rem 2rem }
+  .product-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem }
+  .ingredient-grid { grid-template-columns: 1fr 1fr }
+  .journal-grid { grid-template-columns: 1fr }
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 2.5rem; padding: 3rem 1.5rem }
+  .footer-wordmark { padding: 0 1.5rem }
+  .footer-bottom { padding: 1.5rem }
+  .subscribe-form { flex-direction: column }
+  .subscribe-input { border-right: 1px solid var(--muted-2); border-bottom: none }
+}
+@media(max-width: 640px) {
+  .product-grid { grid-template-columns: 1fr }
+  .ingredient-grid { grid-template-columns: 1fr }
+  .footer-top { grid-template-columns: 1fr }
+  .collection-head { gap: 1.5rem }
+}
+</style>
+</head>
+<body>
+
+<!-- Cart overlay -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+
+<!-- Cart drawer -->
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <span class="cart-title">Your Selection</span>
+    <span class="cart-close" onclick="closeCart()">✕</span>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <em>Your cart is empty.<br/>
+      Discover the collection below.</em>
+    </div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-subtotal">
+      <span class="cart-sub-label">Subtotal</span>
+      <span class="cart-sub-amount" id="cartTotal">$0</span>
+    </div>
+    <p class="cart-note">Complimentary shipping on orders over $150</p>
+    <button class="btn-checkout"><span>Proceed to Checkout</span></button>
+  </div>
+</div>
+
+<!-- Mobile menu -->
+<div class="mob-menu" id="mobMenu">
+  <button class="mob-close" onclick="closeMob()">✕</button>
+  <a href="#collection" onclick="closeMob()">The Collection</a>
+  <a href="#ritual" onclick="closeMob()">The Ritual</a>
+  <a href="#ingredients" onclick="closeMob()">Ingredients</a>
+  <a href="#journal" onclick="closeMob()">Journal</a>
+  <a href="#subscribe" onclick="closeMob()">Subscribe</a>
+</div>
+
+<!-- ═══ ANNOUNCEMENT ═══ -->
+<div class="announce">
+  Complimentary shipping on orders over $150 · <span>New: The Overnight Balm — now available</span>
+</div>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <ul class="nav-left">
+    <li><a href="#collection">Collection</a></li>
+    <li><a href="#ritual">The Ritual</a></li>
+    <li><a href="#ingredients">Ingredients</a></li>
+    <li><a href="#journal">Journal</a></li>
+  </ul>
+
+  <a href="/" class="nav-wordmark">Veldt</a>
+
+  <div class="nav-right">
+    <a href="#subscribe" class="nav-icon">Subscribe</a>
+    <span class="nav-icon" onclick="openCart()" style="cursor:pointer">
+      Bag <span class="cart-count" id="navCartCount">0</span>
+    </span>
+  </div>
+  <button class="nav-toggle" onclick="openMob()"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-img">
+    <img
+      src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=1920&q=90"
+      alt="Veldt botanical skincare"
+      loading="eager"
+    />
+  </div>
+  <div class="hero-wash"></div>
+
+  <div class="hero-content">
+    <div class="hero-eye">New Collection · Winter 2025</div>
+    <h1 class="hero-h1">
+      The skin you<br/>
+      were <em>born with.</em>
+    </h1>
+    <p class="hero-sub">Botanical formulations from the Southern California coast. Cold-pressed. Small-batch. Made to work slowly, the way good things do.</p>
+    <div class="hero-actions">
+      <a href="#collection" class="btn-primary"><span>Discover the Collection</span></a>
+      <a href="#ritual" class="btn-ghost">The Ritual</a>
+    </div>
+  </div>
+
+  <div class="hero-corner">
+    <div class="hero-corner-line">Southern California</div>
+    <div class="hero-corner-line">Cold-Pressed · Small Batch</div>
+    <div class="hero-corner-line">Est. 2020</div>
+  </div>
+</section>
+
+<!-- ═══ PRESS MARQUEE ═══ -->
+<div class="press-strip" aria-label="Press features">
+  <div class="press-track">
+    <span class="press-pub">Vogue</span><span class="press-sep">◆</span>
+    <span class="press-quote-item">"The face oil that changed how I think about skincare"</span><span class="press-sep">◆</span>
+    <span class="press-pub">Into The Gloss</span><span class="press-sep">◆</span>
+    <span class="press-quote-item">"Quiet luxury in a bottle"</span><span class="press-sep">◆</span>
+    <span class="press-pub">The Cut</span><span class="press-sep">◆</span>
+    <span class="press-quote-item">"Best clean beauty brand of the year"</span><span class="press-sep">◆</span>
+    <span class="press-pub">WSJ Magazine</span><span class="press-sep">◆</span>
+    <span class="press-quote-item">"California's most considered skincare"</span><span class="press-sep">◆</span>
+    <span class="press-pub">Vogue</span><span class="press-sep">◆</span>
+    <span class="press-quote-item">"The face oil that changed how I think about skincare"</span><span class="press-sep">◆</span>
+    <span class="press-pub">Into The Gloss</span><span class="press-sep">◆</span>
+    <span class="press-quote-item">"Quiet luxury in a bottle"</span><span class="press-sep">◆</span>
+    <span class="press-pub">The Cut</span><span class="press-sep">◆</span>
+    <span class="press-quote-item">"Best clean beauty brand of the year"</span><span class="press-sep">◆</span>
+    <span class="press-pub">WSJ Magazine</span><span class="press-sep">◆</span>
+    <span class="press-quote-item">"California's most considered skincare"</span><span class="press-sep">◆</span>
+  </div>
+</div>
+
+<!-- ═══ COLLECTION ═══ -->
+<section id="collection">
+  <div class="collection-head">
+    <div class="reveal">
+      <div class="s-eye">The Collection</div>
+      <h2 class="s-h2">Four formulas.<br/><em>One ritual.</em></h2>
+    </div>
+    <p class="s-body reveal d1">Each product in the Veldt collection was developed to work alone or together. The ritual, in its entirety, takes four minutes. The results take longer — and they last.</p>
+  </div>
+
+  <div class="product-grid max-w" style="max-width:1280px;margin:0 auto">
+
+    <!-- Product 1 — Serum -->
+    <div class="product-card reveal" onclick="addToCart('Luminance Serum', 195)">
+      <div class="product-card-img">
+        <img class="img-primary"
+          src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80"
+          alt="Veldt Luminance Serum"
+          loading="lazy"
+        />
+        <img class="img-secondary"
+          src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&q=80"
+          alt="Veldt Luminance Serum detail"
+          loading="lazy"
+        />
+        <div class="product-quick-add">Add to Bag — $195</div>
+      </div>
+      <div class="product-badge">Bestseller</div>
+      <div class="product-name">Luminance Serum</div>
+      <div class="product-tagline">Brightening · Vitamin C complex · All skin types</div>
+      <div class="product-price">$195</div>
+      <div class="product-size">30ml · 1 fl oz</div>
+    </div>
+
+    <!-- Product 2 — Face Oil -->
+    <div class="product-card reveal d1" onclick="addToCart('Dusk Face Oil', 165)">
+      <div class="product-card-img">
+        <img class="img-primary"
+          src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&q=80"
+          alt="Veldt Dusk Face Oil"
+          loading="lazy"
+        />
+        <img class="img-secondary"
+          src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=600&q=80"
+          alt="Veldt Dusk Face Oil detail"
+          loading="lazy"
+        />
+        <div class="product-quick-add">Add to Bag — $165</div>
+      </div>
+      <div class="product-badge">New · Winter Edition</div>
+      <div class="product-name">Dusk Face Oil</div>
+      <div class="product-tagline">Restorative overnight oil · Rosehip & Sea Buckthorn</div>
+      <div class="product-price">$165</div>
+      <div class="product-size">30ml · 1 fl oz</div>
+    </div>
+
+    <!-- Product 3 — Cleanser -->
+    <div class="product-card reveal d2" onclick="addToCart('Morning Cleanser', 85)">
+      <div class="product-card-img">
+        <img class="img-primary"
+          src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=600&q=80"
+          alt="Veldt Morning Cleanser"
+          loading="lazy"
+        />
+        <img class="img-secondary"
+          src="https://images.unsplash.com/photo-1596178060810-72f53ce9a65c?w=600&q=80"
+          alt="Veldt Morning Cleanser detail"
+          loading="lazy"
+        />
+        <div class="product-quick-add">Add to Bag — $85</div>
+      </div>
+      <div class="product-badge">Step 1</div>
+      <div class="product-name">Morning Cleanser</div>
+      <div class="product-tagline">Gentle emulsifying oil cleanser · Never strips</div>
+      <div class="product-price">$85</div>
+      <div class="product-size">150ml · 5 fl oz</div>
+    </div>
+
+    <!-- Product 4 — Balm -->
+    <div class="product-card reveal d3" onclick="addToCart('Overnight Balm', 145)">
+      <div class="product-card-img">
+        <img class="img-primary"
+          src="https://images.unsplash.com/photo-1587456980765-f9d55d55a29f?w=600&q=80"
+          alt="Veldt Overnight Balm"
+          loading="lazy"
+        />
+        <img class="img-secondary"
+          src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=600&q=80"
+          alt="Veldt Overnight Balm detail"
+          loading="lazy"
+        />
+        <div class="product-quick-add">Add to Bag — $145</div>
+      </div>
+      <div class="product-badge">New Arrival</div>
+      <div class="product-name">Overnight Balm</div>
+      <div class="product-tagline">Repairing sleeping mask · Shea & Squalane</div>
+      <div class="product-price">$145</div>
+      <div class="product-size">50ml · 1.7 fl oz</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EDITORIAL FEATURE — Luminance Serum ═══ -->
+<section id="feature">
+  <div class="feature-inner max-w" style="max-width:1280px;margin:0 auto">
+    <div class="feature-img reveal">
+      <img
+        src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=900&q=85"
+        alt="Veldt Luminance Serum"
+        loading="lazy"
+      />
+    </div>
+    <div class="feature-content reveal d1">
+      <div class="s-eye">Featured · Bestseller</div>
+      <h2 class="feature-h2">The Luminance<br/>Serum.</h2>
+      <p class="feature-body">Three years of formulation. A 23% Vitamin C complex stabilized in a base of cold-pressed rosehip and sea buckthorn — two of the most potent natural brightening agents available. It works within two weeks. Most people notice it within four days. One of our earliest customers calls it "the last serum I'll ever need." We're inclined to agree.</p>
+
+      <div class="feature-details">
+        <div class="feature-detail-row">
+          <span class="detail-key">Size</span>
+          <span class="detail-val">30ml · 1 fl oz</span>
+        </div>
+        <div class="feature-detail-row">
+          <span class="detail-key">Skin Type</span>
+          <span class="detail-val">All skin types</span>
+        </div>
+        <div class="feature-detail-row">
+          <span class="detail-key">Key Actives</span>
+          <span class="detail-val">23% Vitamin C · Rosehip · Sea Buckthorn</span>
+        </div>
+        <div class="feature-detail-row">
+          <span class="detail-key">Formulation</span>
+          <span class="detail-val">Cold-pressed · Small-batch · Clean certified</span>
+        </div>
+        <div class="feature-detail-row">
+          <span class="detail-key">Subscription</span>
+          <span class="detail-val">$166 / month · Cancel anytime</span>
+        </div>
+      </div>
+
+      <div class="feature-price">
+        $195
+        <div class="feature-price-sub">Or subscribe and save 15%</div>
+      </div>
+
+      <div class="feature-actions">
+        <button class="btn-add" onclick="addToCart('Luminance Serum', 195)">
+          <span>Add to Bag</span>
+        </button>
+        <button class="btn-save" title="Save">♡</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ THE RITUAL ═══ -->
+<section id="ritual">
+  <div class="ritual-inner max-w" style="max-width:1280px;margin:0 auto">
+    <div class="reveal">
+      <div class="ritual-img">
+        <img
+          src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=900&q=85"
+          alt="The Veldt morning ritual"
+          loading="lazy"
+        />
+      </div>
+    </div>
+
+    <div class="reveal d1">
+      <div class="ritual-eye">The Ritual</div>
+      <h2 class="ritual-h2">Four minutes.<br/>Every morning.</h2>
+      <div class="ritual-steps">
+        <div class="ritual-step">
+          <div class="ritual-step-num">I</div>
+          <div>
+            <div class="ritual-step-name">Cleanse — Slowly</div>
+            <p class="ritual-step-body">Begin with cool water and a small amount of the Morning Cleanser emulsified in your palms. The oil-to-milk transformation as you rinse is intentional — it signals the transition between sleep and attention. Take thirty seconds longer than you think you need.</p>
+            <span class="ritual-product-tag">Morning Cleanser</span>
+          </div>
+        </div>
+        <div class="ritual-step">
+          <div class="ritual-step-num">II</div>
+          <div>
+            <div class="ritual-step-name">Treat — While Still Damp</div>
+            <p class="ritual-step-body">The Luminance Serum absorbs best into skin that retains a trace of moisture. Three drops across cheekbones, forehead, and chin. Press — do not rub — until the serum disappears into the skin rather than sitting on top of it. Give it ninety seconds to settle before the next step.</p>
+            <span class="ritual-product-tag">Luminance Serum</span>
+          </div>
+        </div>
+        <div class="ritual-step">
+          <div class="ritual-step-num">III</div>
+          <div>
+            <div class="ritual-step-name">Seal — With the Oil</div>
+            <p class="ritual-step-body">Two drops of the Dusk Face Oil into the cup of your palm, warmed briefly. Pressed over the serum to lock in moisture and activate the actives. The scent — faint, botanical, nothing synthetic — is half the point. It takes three seconds. It changes the rest of the morning.</p>
+            <span class="ritual-product-tag">Dusk Face Oil</span>
+          </div>
+        </div>
+        <div class="ritual-step">
+          <div class="ritual-step-num">IV</div>
+          <div>
+            <div class="ritual-step-name">Rest — Overnight</div>
+            <p class="ritual-step-body">On the evenings your skin needs more — and it will tell you — a small amount of the Overnight Balm pressed into the most vulnerable areas: around the eyes, the corners of the mouth, the parts that hold the expression of the day. By morning, the difference is visible.</p>
+            <span class="ritual-product-tag">Overnight Balm</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ INGREDIENTS ═══ -->
+<section id="ingredients">
+  <div class="ingredients-inner">
+    <div class="ingredients-head">
+      <div class="reveal">
+        <div class="s-eye">The Ingredients</div>
+        <h2 class="s-h2">What's inside<br/><em>matters.</em></h2>
+      </div>
+      <p class="s-body reveal d1">Every botanical in the Veldt collection is cold-pressed, ethically sourced, and included at concentrations that actually work. We list our percentages — most brands don't.</p>
+    </div>
+
+    <div class="ingredient-grid">
+      <div class="ingredient-card reveal">
+        <div class="ingredient-icon">🌹</div>
+        <div class="ingredient-name">Rosehip</div>
+        <div class="ingredient-origin">Chilean Andes · Cold-Pressed</div>
+        <p class="ingredient-desc">The highest natural concentration of Vitamin C available in plant form, alongside Vitamin A and essential fatty acids. Used at 18% in the Luminance Serum — six times the industry standard.</p>
+      </div>
+      <div class="ingredient-card reveal d1">
+        <div class="ingredient-icon">🌊</div>
+        <div class="ingredient-name">Sea Buckthorn</div>
+        <div class="ingredient-origin">Himalayan Foothills · First Press</div>
+        <p class="ingredient-desc">The deepest orange in botanical skincare, dense with carotenoids, omega-7, and a Vitamin E complex that repairs barrier function at the cellular level. A trace amount colors the entire formula.</p>
+      </div>
+      <div class="ingredient-card reveal d2">
+        <div class="ingredient-icon">🌿</div>
+        <div class="ingredient-name">Squalane</div>
+        <div class="ingredient-origin">Sugarcane-derived · Fermented</div>
+        <p class="ingredient-desc">Plant-derived squalane mirrors the skin's own natural lipid profile so precisely that it absorbs without a trace of residue. The base of the Overnight Balm. The reason it disappears by morning.</p>
+      </div>
+      <div class="ingredient-card reveal">
+        <div class="ingredient-icon">🌸</div>
+        <div class="ingredient-name">Calendula CO₂</div>
+        <div class="ingredient-origin">Southern California · Supercritical Extract</div>
+        <p class="ingredient-desc">Grown on a small farm in San Diego County. Extracted via supercritical CO₂ to preserve the full phytochemical profile. Anti-inflammatory, barrier-strengthening, and the ingredient most responsible for the Cleanser's gentleness.</p>
+      </div>
+      <div class="ingredient-card reveal d1">
+        <div class="ingredient-icon">🫒</div>
+        <div class="ingredient-name">Jojoba</div>
+        <div class="ingredient-origin">Sonoran Desert · Single-Origin</div>
+        <p class="ingredient-desc">Technically a wax ester, not an oil, which means it behaves more like the skin's own sebum than any other botanical. Regulates without stripping. Hydrates without clogging. The silent base of the Face Oil.</p>
+      </div>
+      <div class="ingredient-card reveal d2">
+        <div class="ingredient-icon">🌻</div>
+        <div class="ingredient-name">Vitamin C Complex</div>
+        <div class="ingredient-origin">L-Ascorbic Acid · 23% · Stabilized</div>
+        <p class="ingredient-desc">The most potent form of Vitamin C available, stabilized in an anhydrous base at a pH that allows actual penetration. Most Vitamin C products are below 10% and ineffective at their pH. Ours is neither.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ JOURNAL ═══ -->
+<section id="journal">
+  <div class="journal-inner">
+    <div class="journal-head reveal">
+      <div class="s-eye">Journal</div>
+      <h2 class="s-h2" style="max-width:500px">On beauty,<br/><em>ingredients,<br/>and the slow approach.</em></h2>
+    </div>
+
+    <div class="journal-grid">
+      <div class="journal-card featured reveal">
+        <div class="journal-img">
+          <img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=800&q=80" alt="Vitamin C serum formulation" loading="lazy"/>
+        </div>
+        <div class="journal-cat">Ingredients</div>
+        <div class="journal-title">The Case for Vitamin C at 23%: Why Most Serums Don't Work</div>
+        <p class="journal-excerpt">The skincare industry has a Vitamin C problem. Most formulations are ineffective at the concentrations and pH levels they're sold at. We went into detail on the science — and what it means for your routine.</p>
+        <div class="journal-meta">8 min read · December 2024</div>
+        <a href="#journal" class="journal-read" onclick="return false">Read →</a>
+      </div>
+
+      <div>
+        <div class="journal-card reveal d1" style="margin-bottom:2.5rem">
+          <div class="journal-img">
+            <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=80" alt="Skincare evening ritual" loading="lazy"/>
+          </div>
+          <div class="journal-cat">Ritual</div>
+          <div class="journal-title">What Happens to Your Skin While You Sleep</div>
+          <p class="journal-excerpt">The skin's repair cycle peaks between 11pm and 2am. Understanding why changes everything about evening skincare.</p>
+          <div class="journal-meta">5 min read · November 2024</div>
+          <a href="#journal" class="journal-read" onclick="return false">Read →</a>
+        </div>
+
+        <div class="journal-card reveal d2">
+          <div class="journal-img">
+            <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=600&q=80" alt="Sea buckthorn botanical" loading="lazy"/>
+          </div>
+          <div class="journal-cat">Sourcing</div>
+          <div class="journal-title">How We Source the Sea Buckthorn</div>
+          <p class="journal-excerpt">A visit to the first-press cooperative in the Himalayan foothills that supplies every batch of the Dusk Face Oil.</p>
+          <div class="journal-meta">6 min read · October 2024</div>
+          <a href="#journal" class="journal-read" onclick="return false">Read →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SUBSCRIBE ═══ -->
+<section id="subscribe">
+  <div class="subscribe-inner reveal">
+    <div class="s-eye" style="justify-content:center">The Letter</div>
+    <h2 class="subscribe-h2">On skin, slowly.</h2>
+    <p class="subscribe-body">A monthly letter on ingredients, rituals, and the science behind what actually works. No promotions. No urgency. Just information worth having.</p>
+    <div class="subscribe-form">
+      <input type="email" class="subscribe-input" placeholder="Your email address" />
+      <button class="subscribe-btn">Subscribe</button>
+    </div>
+    <p class="subscribe-note">Monthly. Thoughtful. Unsubscribe whenever you like.</p>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name">Veldt</div>
+      <div class="footer-brand-sub">Botanical Skincare · Southern California</div>
+      <p class="footer-brand-desc">Cold-pressed formulations made slowly, on the coast, from botanicals that deserve the attention.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">The Collection</div>
+      <ul class="footer-links">
+        <li><a href="#collection">Luminance Serum</a></li>
+        <li><a href="#collection">Dusk Face Oil</a></li>
+        <li><a href="#collection">Morning Cleanser</a></li>
+        <li><a href="#collection">Overnight Balm</a></li>
+        <li><a href="#collection">Shop All</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Learn</div>
+      <ul class="footer-links">
+        <li><a href="#ritual">The Ritual</a></li>
+        <li><a href="#ingredients">Ingredients</a></li>
+        <li><a href="#journal">Journal</a></li>
+        <li><a href="#subscribe">The Letter</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Support</div>
+      <ul class="footer-links">
+        <li><a href="#">Shipping & Returns</a></li>
+        <li><a href="#">Subscription</a></li>
+        <li><a href="#">Wholesale</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Oversized wordmark -->
+  <div class="footer-wordmark">
+    <div class="footer-wordmark-text">Veldt</div>
+  </div>
+
+  <div class="footer-bottom">
+    <div>© 2024 Veldt Skincare, LLC · Southern California · <strong>Portfolio demo by The Zaliznyak Group</strong> — zaliznyakgroup.com</div>
+    <div>Privacy · Terms · Accessibility</div>
+  </div>
+</footer>
+
+<script>
+/* ── Cart state ─────────────────────────────── */
+let cart = [];
+
+function addToCart(name, price) {
+  const existing = cart.find(i => i.name === name);
+  if (existing) existing.qty++;
+  else cart.push({ name, price, qty: 1 });
+  renderCart();
+  openCart();
+}
+
+function removeFromCart(name) {
+  cart = cart.filter(i => i.name !== name);
+  renderCart();
+}
+
+function renderCart() {
+  const items = document.getElementById('cartItems');
+  const footer = document.getElementById('cartFooter');
+  const count  = document.getElementById('navCartCount');
+
+  const totalItems = cart.reduce((s, i) => s + i.qty, 0);
+  const totalPrice = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  count.textContent = totalItems;
+
+  if (cart.length === 0) {
+    items.innerHTML = `<div class="cart-empty"><em>Your cart is empty.<br/>Discover the collection below.</em></div>`;
+    footer.style.display = 'none';
+    return;
+  }
+
+  footer.style.display = 'block';
+  document.getElementById('cartTotal').textContent = `$${totalPrice.toLocaleString()}`;
+
+  items.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <div class="cart-item-img">
+        <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=150&q=70" alt="${item.name}"/>
+      </div>
+      <div>
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-size">Qty: ${item.qty}</div>
+      </div>
+      <div>
+        <div class="cart-item-price">$${(item.price * item.qty).toLocaleString()}</div>
+        <div class="cart-item-remove" onclick="removeFromCart('${item.name}')">Remove</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openCart()  {
+  document.getElementById('cartDrawer').classList.add('open');
+  document.getElementById('cartOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCart() {
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ── Reveal ──────────────────────────────────── */
+const io = new IntersectionObserver(
+  entries => entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible')
+  }),
+  { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+)
+document.querySelectorAll('.reveal').forEach(el => io.observe(el))
+
+/* ── Mobile menu ─────────────────────────────── */
+function openMob()  { document.getElementById('mobMenu').classList.add('open') }
+function closeMob() { document.getElementById('mobMenu').classList.remove('open') }
+
+/* ── Smooth scroll ───────────────────────────── */
+document.querySelectorAll('a[href^="#"]').forEach(a =>
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'))
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); closeMob() }
+  })
+)
+</script>
+</body>
+</html>
